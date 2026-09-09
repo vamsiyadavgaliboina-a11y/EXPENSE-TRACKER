@@ -20,13 +20,15 @@ dotenv.config();
 
 const app = express();
 
-// Connect to MongoDB
-connectDB();
-
 // Security middleware
 app.use(helmet());
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174'],
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    process.env.CLIENT_URL,
+    'https://expense-tracker-ochre-xi-58.vercel.app',
+  ].filter(Boolean),
   credentials: true
 }));
 
@@ -67,15 +69,21 @@ app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
-  console.log(`📧 Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+if (process.env.VERCEL !== '1') {
+  connectDB().then(() => {
+    const server = app.listen(PORT, () => {
+      console.log(`✅ Server running on port ${PORT}`);
+      console.log(`📧 Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
 
-// Graceful shutdown
-process.on('unhandledRejection', (err) => {
-  console.error('❌ Unhandled Rejection:', err);
-  server.close(() => process.exit(1));
-});
+    process.on('unhandledRejection', (err) => {
+      console.error('❌ Unhandled Rejection:', err);
+      server.close(() => process.exit(1));
+    });
+  }).catch((error) => {
+    console.error('❌ Server startup failed:', error.message);
+    process.exit(1);
+  });
+}
 
 export default app;
