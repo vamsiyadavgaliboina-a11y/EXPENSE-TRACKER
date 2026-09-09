@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Expense Tracker — AI-Assisted Student Budgeting and Spending Insights" />
+    <meta name="theme-color" content="#3B82F6" />
+    <meta property="og:title" content="Expense Tracker - AI-Assisted Student Budgeting" />
+    <meta property="og:description" content="Track expenses, manage budgets, forecast your spending, and understand your financial habits with AI-powered insights." />
+    <title>Expense Tracker — AI-Assisted Student Budgeting</title>
+    <script>
+      (function() {
+        try {
+          const theme = localStorage.getItem('theme');
+          if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
