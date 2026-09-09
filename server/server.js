@@ -45,6 +45,14 @@ app.use('/api/auth/', authRateLimiter);
 app.use('/api/ai/', aiRateLimiter);
 
 // Health check
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'Expense Tracker API is running' });
+});
+
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).end();
+});
+
 app.get('/api/health', (req, res) => {
   res.status(200).json({ message: 'Server is running' });
 });
