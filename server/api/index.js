@@ -27,7 +27,9 @@ export default async function handler(req, res) {
     await connectDB();
   } catch (error) {
     console.error('Database initialization failed:', error.message);
-    return res.status(503).json({ message: 'Database connection is unavailable' });
+    return res.status(503).json({
+      message: 'Database connection is unavailable. Configure a reachable MongoDB Atlas MONGO_URI in Vercel.',
+    });
   }
 
   try {
